@@ -44,6 +44,9 @@ module.exports = {
             args = {};
             args.accept = accept;
         }
+        if(typeof args != "object"){
+            args = {};
+        }
         var config = {};
         config.accept = args.accept || "*/*";
         config.returnDataUri = args.returnDataUri || false;
