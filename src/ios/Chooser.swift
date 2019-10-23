@@ -6,7 +6,8 @@ import Foundation
 @objc(Chooser)
 class Chooser : CDVPlugin {
 	var commandCallback: String?
-
+	var returnDataUri:Bool?
+	var returnData:Bool?
 	func callPicker (utis: [String]) {
 		let picker = UIDocumentPickerViewController(documentTypes: utis, in: .import)
 		picker.delegate = self
@@ -46,12 +47,14 @@ class Chooser : CDVPlugin {
 			}
 
 			do {
-				let result = [
-					"data": data.base64EncodedString(),
-					"mediaType": self.detectMimeType(newURL),
-					"name": newURL.lastPathComponent,
-					"uri": newURL.absoluteString
-				]
+                var result = [
+                    "mediaType": self.detectMimeType(newURL),
+                    "name": newURL.lastPathComponent,
+                    "uri": newURL.absoluteString
+                ]
+                if(self.returnData){
+                    result['data'] = data.base64EncodedString();
+                }
 
 				if let message = try String(
 					data: JSONSerialization.data(
@@ -85,6 +88,8 @@ class Chooser : CDVPlugin {
 		self.commandCallback = command.callbackId
 
 		let accept = command.arguments.first as! String
+		self.returnDataUri = command.argumentAtIndex(1, withDefault:false);
+		self.returnData = command.argumentAtIndex(2, withDefault:false);
 		let mimeTypes = accept.components(separatedBy: ",")
 
 		let utis = mimeTypes.map { (mimeType: String) -> String in
