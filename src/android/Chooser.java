@@ -25,7 +25,8 @@ public class Chooser extends CordovaPlugin {
 	private static final String ACTION_OPEN = "getFile";
 	private static final int PICK_FILE_REQUEST = 1;
 	private static final String TAG = "Chooser";
-
+	private boolean returnDataUri = false;
+	private boolean returnData = false;
 	/** @see https://stackoverflow.com/a/17861016/459881 */
 	public static byte[] getBytesFromInputStream (InputStream is) throws IOException {
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
@@ -86,6 +87,8 @@ public class Chooser extends CordovaPlugin {
 	) {
 		try {
 			if (action.equals(Chooser.ACTION_OPEN)) {
+				this.returnDataUri = args.getBoolean(1);
+				this.returnData = args.getBoolean(2);
 				this.chooseFile(callbackContext, args.getString(0));
 				return true;
 			}
@@ -116,15 +119,15 @@ public class Chooser extends CordovaPlugin {
 							mediaType = "application/octet-stream";
 						}
 
-						byte[] bytes = Chooser.getBytesFromInputStream(
-							contentResolver.openInputStream(uri)
-						);
-
-						String base64 = Base64.encodeToString(bytes, Base64.DEFAULT);
-
 						JSONObject result = new JSONObject();
 
-						result.put("data", base64);
+						if(this.getData){
+							byte[] bytes = Chooser.getBytesFromInputStream(
+								contentResolver.openInputStream(uri)
+							);
+							String base64 = Base64.encodeToString(bytes, Base64.DEFAULT);
+							result.put("data", base64);
+						}
 						result.put("mediaType", mediaType);
 						result.put("name", name);
 						result.put("uri", uri.toString());

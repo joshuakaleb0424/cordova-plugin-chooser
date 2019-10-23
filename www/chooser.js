@@ -37,7 +37,19 @@ function from_base64 (sBase64, nBlocksSize) {
 }
 
 module.exports = {
-    getFile: function (accept, successCallback, failureCallback) {
+    getFile: function (args, successCallback, failureCallback) {
+        
+        if(typeof args === 'string'){
+            var accept = args.replace(/\s/g, '');
+            args = {};
+            args.accept = accept;
+        }
+        var config = {};
+        config.accept = args.accept || "*/*";
+        config.returnDataUri = args.returnDataUri || false;
+        config.returnData = (args.returnData || args.returnDataUri) || false;
+
+
         var result = new Promise(function (resolve, reject) {
             cordova.exec(
                 function (json) {
@@ -48,10 +60,12 @@ module.exports = {
 
                     try {
                         var o = JSON.parse(json);
-                        var base64Data = o.data.replace(/[^A-Za-z0-9\+\/]/g, '');
+                        if(config.returnDataUri && config.returnData){
+                            var base64Data = o.data.replace(/[^A-Za-z0-9\+\/]/g, '');
 
-                        o.data = from_base64(base64Data);
-                        o.dataURI = 'data:' + o.mediaType + ';base64,' + base64Data;
+                            o.data = from_base64(base64Data);
+                            o.dataURI = 'data:' + o.mediaType + ';base64,' + base64Data;
+                        }
 
                         resolve(o);
                     }
@@ -62,7 +76,7 @@ module.exports = {
                 reject,
                 'Chooser',
                 'getFile',
-                [(typeof accept === 'string' ? accept.replace(/\s/g, '') : undefined) || '*/*']
+                [config.accept, config.returnDataUri, config.returnData]
             );
         });
 
