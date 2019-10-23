@@ -23,7 +23,7 @@ class Chooser : CDVPlugin {
 			if let mimetype = UTTypeCopyPreferredTagWithClass(
 				uti,
 				kUTTagClassMIMEType
-			)?.takeRetainedValue() as? String {
+			)?.takeRetainedValue() as String {
 				return mimetype
 			}
 		}
@@ -115,7 +115,7 @@ class Chooser : CDVPlugin {
 					nil
 				)
 
-				if let uti = (utiUnmanaged?.takeRetainedValue() as? String) {
+				if let uti = (utiUnmanaged?.takeRetainedValue() as String) {
 					if !uti.hasPrefix("dyn.") {
 						return uti
 					}
