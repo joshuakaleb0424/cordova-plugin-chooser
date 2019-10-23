@@ -121,7 +121,7 @@ public class Chooser extends CordovaPlugin {
 
 						JSONObject result = new JSONObject();
 
-						if(this.getData){
+						if(this.returnData){
 							byte[] bytes = Chooser.getBytesFromInputStream(
 								contentResolver.openInputStream(uri)
 							);
