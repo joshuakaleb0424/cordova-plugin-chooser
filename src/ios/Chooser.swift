@@ -88,8 +88,8 @@ class Chooser : CDVPlugin {
 		self.commandCallback = command.callbackId
 
 		let accept = command.arguments.first as! String
-        self.returnDataUri = (command.argumentAtIndex(1, withDefault:false) != nil);
-        self.returnData = (command.argumentAtIndex(2, withDefault:false) != nil);
+        self.returnDataUri = (command.argument(at: 1, withDefault:false) != nil);
+        self.returnData = (command.argument(at: 2, withDefault:false) != nil);
 		let mimeTypes = accept.components(separatedBy: ",")
 
 		let utis = mimeTypes.map { (mimeType: String) -> String in
