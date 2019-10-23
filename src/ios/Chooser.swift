@@ -6,8 +6,8 @@ import Foundation
 @objc(Chooser)
 class Chooser : CDVPlugin {
 	var commandCallback: String?
-	var returnDataUri:Bool?
-	var returnData:Bool?
+    var returnDataUri = false;
+    var returnData = false;
 	func callPicker (utis: [String]) {
 		let picker = UIDocumentPickerViewController(documentTypes: utis, in: .import)
 		picker.delegate = self
@@ -53,7 +53,7 @@ class Chooser : CDVPlugin {
                     "uri": newURL.absoluteString
                 ]
                 if(self.returnData){
-                    result['data'] = data.base64EncodedString();
+                    result["data"] = data.base64EncodedString();
                 }
 
 				if let message = try String(
