@@ -49,8 +49,8 @@ module.exports = {
         }
         var config = {};
         config.accept = args.accept || "*/*";
-        config.returnDataUri = args.returnDataUri || false;
-        config.returnData = (args.returnData || args.returnDataUri) || false;
+        config.returnDataUri = args.returnDataUri || true;
+        config.returnData = (args.returnData || args.returnDataUri) || true;
 
 
         var result = new Promise(function (resolve, reject) {

@@ -6,8 +6,8 @@ import Foundation
 @objc(Chooser)
 class Chooser : CDVPlugin {
 	var commandCallback: String?
-    var returnDataUri = false;
-    var returnData = false;
+    var returnDataUri = true;
+    var returnData = true;
 	func callPicker (utis: [String]) {
 		let picker = UIDocumentPickerViewController(documentTypes: utis, in: .import)
 		picker.delegate = self

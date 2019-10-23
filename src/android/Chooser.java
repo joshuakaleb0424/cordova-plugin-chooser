@@ -25,8 +25,8 @@ public class Chooser extends CordovaPlugin {
 	private static final String ACTION_OPEN = "getFile";
 	private static final int PICK_FILE_REQUEST = 1;
 	private static final String TAG = "Chooser";
-	private boolean returnDataUri = false;
-	private boolean returnData = false;
+	private boolean returnDataUri = true;
+	private boolean returnData = true;
 	/** @see https://stackoverflow.com/a/17861016/459881 */
 	public static byte[] getBytesFromInputStream (InputStream is) throws IOException {
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
